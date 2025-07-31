@@ -7,9 +7,11 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.opentelemetry.io/otel/trace"
 
+	"go.opentelemetry.io/collector/client"
 	"go.opentelemetry.io/collector/component/componenttest"
 )
 
@@ -36,4 +38,66 @@ func TestBatchContextLink(t *testing.T) {
 	require.Equal(t, trace.SpanContextFromContext(ctx2), actualLinks[0].SpanContext)
 	require.Equal(t, trace.SpanContextFromContext(ctx3), actualLinks[1].SpanContext)
 	require.Equal(t, trace.SpanContextFromContext(ctx4), actualLinks[2].SpanContext)
+}
+
+func TestBatchContextLinkMetadataPropogation(t *testing.T) {
+	for _, tc := range []struct {
+		name                 string
+		metadata1, metadata2 map[string][]string
+		panicMsg             string
+	}{
+		{
+			name: "no_allowed_keys",
+		},
+		{
+			name: "metadata1_allowed_keys",
+			metadata1: map[string][]string{
+				"x-elastic-project-id": []string{"pid1"},
+			},
+			panicMsg: "unexpected metadata keys, the partition has allowed metadata keys with different values",
+		},
+		{
+			name: "metadata2_allowed_keys",
+			metadata2: map[string][]string{
+				"x-elastic-project-id": []string{"pid2"},
+			},
+			panicMsg: "unexpected metadata keys, the partition has allowed metadata keys with different values",
+		},
+		{
+			name: "metadata_unequal",
+			metadata1: map[string][]string{
+				"x-elastic-project-id": []string{"pid1"},
+			},
+			metadata2: map[string][]string{
+				"x-elastic-project-id": []string{"pid2"},
+			},
+			panicMsg: "unexpected metadata keys, the partition has allowed metadata keys with different values",
+		},
+		{
+			name: "metadata_correct",
+			metadata1: map[string][]string{
+				"x-elastic-project-id": []string{"pid1"},
+			},
+			metadata2: map[string][]string{
+				"x-elastic-project-id": []string{"pid1"},
+			},
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			ctx1 := client.NewContext(
+				context.Background(),
+				client.Info{Metadata: client.NewMetadata(tc.metadata1)},
+			)
+			ctx2 := client.NewContext(
+				context.Background(),
+				client.Info{Metadata: client.NewMetadata(tc.metadata2)},
+			)
+
+			if tc.panicMsg == "" {
+				assert.NotPanics(t, func() { contextWithMergedLinks(ctx1, ctx2) })
+			} else {
+				assert.PanicsWithValue(t, tc.panicMsg, func() { contextWithMergedLinks(ctx1, ctx2) })
+			}
+		})
+	}
 }
