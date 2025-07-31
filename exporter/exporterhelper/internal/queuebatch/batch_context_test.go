@@ -45,6 +45,7 @@ func TestBatchContextLinkMetadataPropogation(t *testing.T) {
 		name                 string
 		metadata1, metadata2 map[string][]string
 		panicMsg             string
+		expectedMetadata     map[string][]string
 	}{
 		{
 			name: "no_allowed_keys",
@@ -77,8 +78,15 @@ func TestBatchContextLinkMetadataPropogation(t *testing.T) {
 			name: "metadata_correct",
 			metadata1: map[string][]string{
 				"x-elastic-project-id": []string{"pid1"},
+				"other-metadata-1":     []string{"other1"},
+				"other-metadata-2":     []string{"other2"},
 			},
 			metadata2: map[string][]string{
+				"x-elastic-project-id": []string{"pid1"},
+				"other-metadata-1":     []string{"other1"},
+				"other-metadata-3":     []string{"other3"},
+			},
+			expectedMetadata: map[string][]string{
 				"x-elastic-project-id": []string{"pid1"},
 			},
 		},
@@ -94,9 +102,14 @@ func TestBatchContextLinkMetadataPropogation(t *testing.T) {
 			)
 
 			if tc.panicMsg == "" {
-				assert.NotPanics(t, func() { contextWithMergedLinks(ctx1, ctx2) })
+				require.NotPanics(t, func() { contextWithMergedLinks(ctx1, ctx2) })
+				ctx := contextWithMergedLinks(ctx1, ctx2)
+				actualMetadata := client.FromContext(ctx).Metadata
+				for k := range actualMetadata.Keys() {
+					assert.Equal(t, tc.expectedMetadata[k], actualMetadata.Get(k))
+				}
 			} else {
-				assert.PanicsWithValue(t, tc.panicMsg, func() { contextWithMergedLinks(ctx1, ctx2) })
+				require.PanicsWithValue(t, tc.panicMsg, func() { contextWithMergedLinks(ctx1, ctx2) })
 			}
 		})
 	}
