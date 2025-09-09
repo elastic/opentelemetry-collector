@@ -6,23 +6,23 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
-	go.opentelemetry.io/collector/component v1.37.0
-	go.opentelemetry.io/collector/component/componenttest v0.131.0
-	go.opentelemetry.io/collector/confmap v1.37.0
-	go.opentelemetry.io/collector/confmap/provider/fileprovider v1.37.0
-	go.opentelemetry.io/collector/connector v0.131.0
-	go.opentelemetry.io/collector/connector/connectortest v0.131.0
-	go.opentelemetry.io/collector/consumer v1.37.0
-	go.opentelemetry.io/collector/consumer/consumertest v0.131.0
-	go.opentelemetry.io/collector/filter v0.131.0
-	go.opentelemetry.io/collector/pdata v1.37.0
+	go.opentelemetry.io/collector/component v1.41.0
+	go.opentelemetry.io/collector/component/componenttest v0.135.0
+	go.opentelemetry.io/collector/confmap v1.41.0
+	go.opentelemetry.io/collector/confmap/provider/fileprovider v1.41.0
+	go.opentelemetry.io/collector/connector v0.135.0
+	go.opentelemetry.io/collector/connector/connectortest v0.135.0
+	go.opentelemetry.io/collector/consumer v1.41.0
+	go.opentelemetry.io/collector/consumer/consumertest v0.135.0
+	go.opentelemetry.io/collector/filter v0.135.0
+	go.opentelemetry.io/collector/pdata v1.41.0
 	go.opentelemetry.io/collector/pipeline v0.131.0
-	go.opentelemetry.io/collector/processor v1.37.0
-	go.opentelemetry.io/collector/processor/processortest v0.131.0
-	go.opentelemetry.io/collector/receiver v1.37.0
-	go.opentelemetry.io/collector/receiver/receivertest v0.131.0
-	go.opentelemetry.io/collector/scraper v0.131.0
-	go.opentelemetry.io/collector/scraper/scrapertest v0.131.0
+	go.opentelemetry.io/collector/processor v1.41.0
+	go.opentelemetry.io/collector/processor/processortest v0.135.0
+	go.opentelemetry.io/collector/receiver v1.41.0
+	go.opentelemetry.io/collector/receiver/receivertest v0.135.0
+	go.opentelemetry.io/collector/scraper v0.135.0
+	go.opentelemetry.io/collector/scraper/scrapertest v0.135.0
 	go.opentelemetry.io/otel v1.37.0
 	go.opentelemetry.io/otel/metric v1.37.0
 	go.opentelemetry.io/otel/sdk/metric v1.37.0
