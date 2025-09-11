@@ -21,6 +21,8 @@ const batchSpanLinksKey traceContextKeyType = iota
 // is resolved and is kept simple for better maintainability across updates.
 var allowedContextKeys = []string{
 	"x-elastic-project-id",
+	"x-elastic-target-id",
+	"x-elastic-target-type",
 }
 
 // LinksFromContext returns a list of trace links registered in the context.
