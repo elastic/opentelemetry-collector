@@ -1,6 +1,8 @@
 module go.opentelemetry.io/collector/cmd/mdatagen
 
-go 1.23.0
+go 1.24.0
+
+toolchain go1.24.7
 
 require (
 	github.com/google/go-cmp v0.7.0
@@ -29,7 +31,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.37.0
 	go.uber.org/goleak v1.3.0
 	go.uber.org/zap v1.27.0
-	golang.org/x/text v0.27.0
+	golang.org/x/text v0.29.0
 )
 
 require (
