@@ -81,7 +81,7 @@ var availableDecoders = map[string]func(body io.ReadCloser) (io.ReadCloser, erro
 		v := zstdReaderPool.Get()
 		var zr *zstd.Decoder
 		var err error
-		if v == nil {
+		if v == nil || true { // BUG(carsonip): Workaround pooling bug
 			// NOTE(tigrannajaryan):
 			// Concurrency 1 disables async decoding. We don't need async decoding, it is pointless
 			// for our use-case (a server accepting decoding http requests).
