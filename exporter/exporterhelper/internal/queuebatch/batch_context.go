@@ -7,8 +7,9 @@ import (
 	"context"
 	"slices"
 
-	"go.opentelemetry.io/collector/client"
 	"go.opentelemetry.io/otel/trace"
+
+	"go.opentelemetry.io/collector/client"
 )
 
 type traceContextKeyType int
