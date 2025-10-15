@@ -110,17 +110,20 @@ func TestBatchContextLinkMetadataPropogation(t *testing.T) {
 		{
 			name: "metadata_correct",
 			metadata1: map[string][]string{
-				"x-elastic-project-id": []string{"pid1"},
-				"other-metadata-1":     []string{"other1"},
-				"other-metadata-2":     []string{"other2"},
+				"x-elastic-project-id":   []string{"pid1"},
+				"x-elastic-mapping-mode": []string{"otel"},
+				"other-metadata-1":       []string{"other1"},
+				"other-metadata-2":       []string{"other2"},
 			},
 			metadata2: map[string][]string{
-				"x-elastic-project-id": []string{"pid1"},
-				"other-metadata-1":     []string{"other1"},
-				"other-metadata-3":     []string{"other3"},
+				"x-elastic-project-id":   []string{"pid1"},
+				"x-elastic-mapping-mode": []string{"otel"},
+				"other-metadata-1":       []string{"other1"},
+				"other-metadata-3":       []string{"other3"},
 			},
 			expectedMetadata: map[string][]string{
-				"x-elastic-project-id": []string{"pid1"},
+				"x-elastic-project-id":   []string{"pid1"},
+				"x-elastic-mapping-mode": []string{"otel"},
 			},
 		},
 	} {

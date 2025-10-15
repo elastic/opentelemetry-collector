@@ -23,6 +23,7 @@ var allowedContextKeys = []string{
 	"x-elastic-project-id",
 	"x-elastic-target-id",
 	"x-elastic-target-type",
+	"x-elastic-mapping-mode",
 }
 
 // LinksFromContext returns a list of trace links registered in the context.
