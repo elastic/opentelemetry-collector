@@ -7,8 +7,9 @@ import (
 	"context"
 	"slices"
 
-	"go.opentelemetry.io/collector/client"
 	"go.opentelemetry.io/otel/trace"
+
+	"go.opentelemetry.io/collector/client"
 )
 
 type traceContextKeyType int
@@ -23,6 +24,7 @@ var allowedContextKeys = []string{
 	"x-elastic-project-id",
 	"x-elastic-target-id",
 	"x-elastic-target-type",
+	"x-elastic-mapping-mode",
 }
 
 // LinksFromContext returns a list of trace links registered in the context.
