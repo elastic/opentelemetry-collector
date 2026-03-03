@@ -7,7 +7,7 @@ require (
 	github.com/prometheus/client_model v0.6.2
 	github.com/prometheus/common v0.65.0
 	github.com/shirou/gopsutil/v4 v4.25.6
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/collector v0.131.0
 	go.opentelemetry.io/collector/component v1.37.0
 	go.opentelemetry.io/collector/component/componentstatus v0.131.0

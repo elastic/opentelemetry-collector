@@ -3,7 +3,7 @@ module go.opentelemetry.io/collector/confmap/xconfmap
 go 1.23.0
 
 require (
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/collector/confmap v1.37.0
 )
 

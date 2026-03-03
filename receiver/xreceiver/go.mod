@@ -3,7 +3,7 @@ module go.opentelemetry.io/collector/receiver/xreceiver
 go 1.23.0
 
 require (
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/collector/component v1.37.0
 	go.opentelemetry.io/collector/consumer/consumertest v0.131.0
 	go.opentelemetry.io/collector/consumer/xconsumer v0.131.0

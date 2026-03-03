@@ -11,7 +11,7 @@ module go.opentelemetry.io/collector
 go 1.23.0
 
 require (
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.uber.org/goleak v1.3.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a
 	google.golang.org/grpc v1.74.2
