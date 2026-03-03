@@ -1,6 +1,6 @@
 module go.opentelemetry.io/collector/service
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/google/uuid v1.6.0
@@ -57,7 +57,7 @@ require (
 	go.uber.org/goleak v1.3.0
 	go.uber.org/multierr v1.11.0
 	go.uber.org/zap v1.27.0
-	gonum.org/v1/gonum v0.16.0
+	gonum.org/v1/gonum v0.17.0
 )
 
 require (
