@@ -7,7 +7,7 @@ require (
 	go.opentelemetry.io/collector/component v1.37.0
 	go.opentelemetry.io/collector/component/componenttest v0.131.0
 	go.opentelemetry.io/collector/pdata v1.37.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.uber.org/goleak v1.3.0
 	go.uber.org/multierr v1.11.0
 )

@@ -14,12 +14,12 @@ require (
 	go.opentelemetry.io/collector/confmap/xconfmap v0.131.0
 	go.opentelemetry.io/collector/connector v0.131.0
 	go.opentelemetry.io/collector/connector/connectortest v0.131.0
-	go.opentelemetry.io/collector/exporter v0.131.0
+	go.opentelemetry.io/collector/exporter v1.57.0
 	go.opentelemetry.io/collector/exporter/exportertest v0.131.0
 	go.opentelemetry.io/collector/extension v1.37.0
 	go.opentelemetry.io/collector/extension/extensiontest v0.131.0
 	go.opentelemetry.io/collector/featuregate v1.37.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/collector/processor v1.37.0
 	go.opentelemetry.io/collector/processor/processortest v0.131.0
 	go.opentelemetry.io/collector/receiver v1.37.0

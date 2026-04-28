@@ -11,11 +11,11 @@ require (
 	go.opentelemetry.io/collector/consumer v1.37.0
 	go.opentelemetry.io/collector/consumer/consumererror v0.131.0
 	go.opentelemetry.io/collector/consumer/consumertest v0.131.0
-	go.opentelemetry.io/collector/exporter v0.131.0
+	go.opentelemetry.io/collector/exporter v1.57.0
 	go.opentelemetry.io/collector/exporter/xexporter v0.131.0
 	go.opentelemetry.io/collector/pdata v1.37.0
 	go.opentelemetry.io/collector/pdata/pprofile v0.131.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/collector/receiver v1.37.0
 	go.opentelemetry.io/collector/receiver/receivertest v0.131.0
 	google.golang.org/grpc v1.74.2

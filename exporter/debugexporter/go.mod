@@ -9,7 +9,7 @@ require (
 	go.opentelemetry.io/collector/config/configtelemetry v0.131.0
 	go.opentelemetry.io/collector/confmap v1.37.0
 	go.opentelemetry.io/collector/consumer v1.37.0
-	go.opentelemetry.io/collector/exporter v0.131.0
+	go.opentelemetry.io/collector/exporter v1.57.0
 	go.opentelemetry.io/collector/exporter/exporterhelper/xexporterhelper v0.131.0
 	go.opentelemetry.io/collector/exporter/exportertest v0.131.0
 	go.opentelemetry.io/collector/exporter/xexporter v0.131.0

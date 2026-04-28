@@ -10,7 +10,7 @@ require (
 	go.opentelemetry.io/collector/consumer/consumertest v0.131.0
 	go.opentelemetry.io/collector/pdata v1.37.0
 	go.opentelemetry.io/collector/pdata/testdata v0.131.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/collector/receiver v1.37.0
 	go.opentelemetry.io/collector/receiver/receiverhelper v0.131.0
 	go.opentelemetry.io/collector/receiver/receivertest v0.131.0

@@ -11,7 +11,7 @@ require (
 	go.opentelemetry.io/collector/consumer v1.37.0
 	go.opentelemetry.io/collector/consumer/consumertest v0.131.0
 	go.opentelemetry.io/collector/pdata v1.37.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/collector/processor v1.37.0
 	go.opentelemetry.io/collector/processor/processortest v0.131.0
 	go.opentelemetry.io/otel v1.37.0
