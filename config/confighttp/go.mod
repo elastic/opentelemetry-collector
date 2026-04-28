@@ -11,11 +11,11 @@ require (
 	go.opentelemetry.io/collector/client v1.37.0
 	go.opentelemetry.io/collector/component v1.37.0
 	go.opentelemetry.io/collector/component/componenttest v0.131.0
-	go.opentelemetry.io/collector/config/configauth v0.131.0
+	go.opentelemetry.io/collector/config/configauth v1.57.0
 	go.opentelemetry.io/collector/config/configcompression v1.37.0
-	go.opentelemetry.io/collector/config/configmiddleware v0.131.0
+	go.opentelemetry.io/collector/config/configmiddleware v1.57.0
 	go.opentelemetry.io/collector/config/configopaque v1.37.0
-	go.opentelemetry.io/collector/config/configoptional v0.131.0
+	go.opentelemetry.io/collector/config/configoptional v1.57.0
 	go.opentelemetry.io/collector/config/configtls v1.37.0
 	go.opentelemetry.io/collector/extension v1.37.0
 	go.opentelemetry.io/collector/extension/extensionauth v1.37.0

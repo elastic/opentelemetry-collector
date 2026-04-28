@@ -12,7 +12,7 @@ require (
 	go.opentelemetry.io/collector/internal/fanoutconsumer v0.131.0
 	go.opentelemetry.io/collector/pdata/pprofile v0.131.0
 	go.opentelemetry.io/collector/pdata/testdata v0.131.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/collector/pipeline/xpipeline v0.131.0
 )
 

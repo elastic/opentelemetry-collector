@@ -9,7 +9,7 @@ require (
 	go.opentelemetry.io/collector/client v1.37.0
 	go.opentelemetry.io/collector/component v1.37.0
 	go.opentelemetry.io/collector/component/componenttest v0.131.0
-	go.opentelemetry.io/collector/config/configoptional v0.131.0
+	go.opentelemetry.io/collector/config/configoptional v1.57.0
 	go.opentelemetry.io/collector/config/configretry v1.37.0
 	go.opentelemetry.io/collector/confmap v1.37.0
 	go.opentelemetry.io/collector/consumer v1.37.0
@@ -23,7 +23,7 @@ require (
 	go.opentelemetry.io/collector/pdata/pprofile v0.131.0
 	go.opentelemetry.io/collector/pdata/testdata v0.131.0
 	go.opentelemetry.io/collector/pdata/xpdata v0.131.0
-	go.opentelemetry.io/collector/pipeline v0.131.0
+	go.opentelemetry.io/collector/pipeline v1.57.0
 	go.opentelemetry.io/otel v1.37.0
 	go.opentelemetry.io/otel/metric v1.37.0
 	go.opentelemetry.io/otel/sdk v1.37.0
