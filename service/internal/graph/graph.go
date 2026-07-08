@@ -17,7 +17,6 @@ import (
 	"errors"
 	"fmt"
 	"maps"
-	"reflect"
 	"slices"
 	"strings"
 
@@ -499,7 +498,8 @@ func (g *Graph) ShutdownAll(ctx context.Context, reporter status.Reporter) error
 // interruption. Connectors, processors, exporters, and all other graph nodes
 // are left untouched.
 func (g *Graph) UpdateReceivers(ctx context.Context, set Settings,
-	oldReceiverCfgs, newReceiverCfgs map[component.ID]component.Config,
+	changedReceivers map[component.ID]bool,
+	newReceiverCfgs map[component.ID]component.Config,
 	receiverFactories map[component.Type]receiver.Factory,
 	host *Host,
 ) error {
@@ -546,7 +546,7 @@ func (g *Graph) UpdateReceivers(ctx context.Context, set Settings,
 		if _, desired := desiredPipelines[nodeID]; !desired {
 			toRemove[nodeID] = rn
 		} else if !maps.Equal(currentPipelines[nodeID], desiredPipelines[nodeID]) ||
-			!reflect.DeepEqual(oldReceiverCfgs[rn.componentID], newReceiverCfgs[rn.componentID]) {
+			changedReceivers[rn.componentID] {
 			toRebuild[nodeID] = rn
 		}
 		// else: unchanged — leave running

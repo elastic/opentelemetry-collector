@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -2774,6 +2775,19 @@ func assertUnchangedReceivers(t *testing.T, pg *Graph, snapshots map[int64]recei
 	}
 }
 
+// changedReceiverIDs returns the set of receiver IDs whose configuration
+// differs between old and new. Tests build both sides directly without ever
+// starting a component on them, so a plain reflect.DeepEqual is safe here.
+func changedReceiverIDs(oldCfgs, newCfgs map[component.ID]component.Config) map[component.ID]bool {
+	changed := map[component.ID]bool{}
+	for id, newCfg := range newCfgs {
+		if oldCfg, ok := oldCfgs[id]; !ok || !reflect.DeepEqual(oldCfg, newCfg) {
+			changed[id] = true
+		}
+	}
+	return changed
+}
+
 // makeUpdatedSettings creates a new Settings with updated receiver builder and pipeline configs.
 func makeUpdatedSettings(base Settings, newRcvrCfgs map[component.ID]component.Config, newPipelineCfgs pipelines.Config) Settings {
 	updated := base
@@ -2830,7 +2844,7 @@ func testUpdateReceiversAddReceiver(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, rcvrCfgs, updatedPipelines)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, rcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, rcvrCfgs), rcvrCfgs, testReceiverFactories, host))
 
 		// Existing receivers must be untouched.
 		assertUnchangedReceivers(t, pg, snapshots)
@@ -2921,7 +2935,7 @@ func testUpdateReceiversRemoveReceiver(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, updatedRcvrCfgs, updatedPipelines)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, updatedRcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, updatedRcvrCfgs), updatedRcvrCfgs, testReceiverFactories, host))
 
 		// Should now have 1 receiver.
 		assert.Equal(t, 1, countReceiverNodes(pg.pipelines[pipeline.NewID(pipeline.SignalTraces)]))
@@ -3004,7 +3018,7 @@ func testUpdateReceiversConfigChange(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, newRcvrCfgs, pipelineCfgs)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testReceiverFactories, host))
 
 		// Still have 2 receivers.
 		assert.Equal(t, 2, countReceiverNodes(pg.pipelines[pipeline.NewID(pipeline.SignalTraces)]))
@@ -3069,7 +3083,7 @@ func testUpdateReceiversNoChange(t *testing.T) {
 
 		// Call update with identical configs.
 		updatedSet := makeUpdatedSettings(set, rcvrCfgs, pipelineCfgs)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, rcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, rcvrCfgs), rcvrCfgs, testReceiverFactories, host))
 
 		// Every receiver should be the exact same instance as before.
 		assertUnchangedReceivers(t, pg, snapshots)
@@ -3140,7 +3154,7 @@ func testUpdateReceiversPipelineSetChange(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, rcvrCfgs, updatedPipelines)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, rcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, rcvrCfgs), rcvrCfgs, testReceiverFactories, host))
 
 		// The old receiver should have been shut down as part of the rebuild.
 		if !originalStopped {
@@ -3237,7 +3251,7 @@ func testUpdateReceiversAddRemoveAndRebuild(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, newRcvrCfgs, updatedPipelines)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testReceiverFactories, host))
 
 		// Should have 3 receivers: keep, rebuild, add.
 		assert.Equal(t, 3, countReceiverNodes(pg.pipelines[pipeline.NewID(pipeline.SignalTraces)]))
@@ -3349,7 +3363,7 @@ func testUpdateReceiversConnectorUntouched(t *testing.T) {
 		}
 
 		updatedSet := makeUpdatedSettings(set, rcvrCfgs, updatedPipelines)
-		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, rcvrCfgs, testReceiverFactories, host))
+		require.NoError(t, pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, rcvrCfgs), rcvrCfgs, testReceiverFactories, host))
 
 		// Connector-as-receiver in "out" pipeline should be the same instance.
 		outPipeAfter := pg.pipelines[pipeline.NewIDWithName(pipeline.SignalTraces, "out")]
@@ -3506,7 +3520,7 @@ func TestUpdateReceiversShutdownErrorOnRemove(t *testing.T) {
 	newRcvrCfgs := map[component.ID]component.Config{exampleID: testcomponents.ExampleReceiverFactory.CreateDefaultConfig()}
 	updatedSet := makeErrUpdatedSettings(set, newRcvrCfgs, errTracesPipeline(exampleID))
 
-	err := pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testErrReceiverFactories, host)
+	err := pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testErrReceiverFactories, host)
 	require.ErrorContains(t, err, "failed to shutdown receiver")
 }
 
@@ -3528,7 +3542,7 @@ func TestUpdateReceiversShutdownErrorOnRebuild(t *testing.T) {
 	}
 	updatedSet := makeErrUpdatedSettings(set, newRcvrCfgs, errTracesPipeline(exampleID, errID))
 
-	err := pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testErrReceiverFactories, host)
+	err := pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testErrReceiverFactories, host)
 	require.ErrorContains(t, err, "failed to shutdown receiver")
 }
 
@@ -3546,7 +3560,7 @@ func TestUpdateReceiversBuildError(t *testing.T) {
 	}
 	updatedSet := makeErrUpdatedSettings(set, newRcvrCfgs, errTracesPipeline(exampleID, errID))
 
-	err := pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testErrReceiverFactories, host)
+	err := pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testErrReceiverFactories, host)
 	require.ErrorContains(t, err, "failed to build receiver")
 }
 
@@ -3564,6 +3578,6 @@ func TestUpdateReceiversStartError(t *testing.T) {
 	}
 	updatedSet := makeErrUpdatedSettings(set, newRcvrCfgs, errTracesPipeline(exampleID, errID))
 
-	err := pg.UpdateReceivers(context.Background(), updatedSet, rcvrCfgs, newRcvrCfgs, testErrReceiverFactories, host)
+	err := pg.UpdateReceivers(context.Background(), updatedSet, changedReceiverIDs(rcvrCfgs, newRcvrCfgs), newRcvrCfgs, testErrReceiverFactories, host)
 	require.ErrorContains(t, err, "failed to start receiver")
 }
